@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>C.R.M. | Nuevo Proyecto</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/_reset.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+    </head>
+    <body class="body">
+        <header class="header">
+            <div class="logo">
+                <img class="logo-img" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo de C.R.M">
+            </div>
+            <nav class="menu">
+                <ul class="menu-list">
+                    <li class="menu-item"><a class="menu-link " href="{{ url_for('index') }}">Inicio</a></li>
+                    <li class="menu-item sub-menu">
+                        <a class="menu-link" href="#">Listas</a>
+                        <ul class="sub-menu-items">
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('lista') }}">Lista de Instaladores</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('lista_units') }}">Unidades de Medida</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item sub-menu">
+                        <a class="menu-link active" href="#">Agregar Datos</a>
+                        <ul class="sub-menu-items">
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('show_unidades') }}">Agregar Proyectos</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('show_projects') }}">Agregar Trabajo</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('new_unit') }}">Agregar Unidad</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="form-container">
+                <form method="post" action="/insert_unit">                    
+                    <h2 class="form-title">Nueva Unidad de Medida</h2>
+                    <div class="input-group">
+                        <label class="input-label">Tipo de Unidad: </label>
+                        <input class="input-field" type="text" name="type-unit" id="type-unit" placeholder="Ingrese el nombe del tipo de unidad..." required>
+                    </div>
+                    <div class="input-group">
+                        <input class="button-form" type="submit" id="registrar" name="registrar" value="Registrar">
+                    </div>
+                </form>
+            </section>
+            <br><br><br><br><br><br><br>
+        </main>
+        <footer class="footer">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h3 class="foot-title">Acerca de</h3>
+                    <p>Dedicados a la restauración de pisos y mantenimiento, con acabados profesonales en cada piso.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="foot-title">Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="{{ url_for('lista') }}">Lista de Instaladores</a></li>
+                        <li><a href="{{ url_for('lista_units') }}">Unidades de Medida</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="foot-title">Redes sociales</h3>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 C.R.M. Cristalizado y Restauración de Marmol, Guatemala S.A. Todos los derechos reservados.<br><a href="#">by Angel Jacinto</a></p>
+            </div>
+        </footer>
+    </body>
+</html>

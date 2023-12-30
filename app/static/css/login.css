@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(../images/logo.svg);
+    background-size: cover;
+    backdrop-filter: blur(10px); 
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #144468;
+    color: gray;
+    text-align: center;
+    padding: 20px;
+}
+main {
+    max-width: 30%;
+    margin: 8em auto 0 auto;
+    padding: 20px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: gray;
+}
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 0.7em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+.button-login{
+    background-color: #144468;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    border-radius: 0.2em;
+    width: 50%;
+    margin: 0 25%;
+    font-size: 1.2em;
+}  
+.button-login:hover {
+    background-color: #c99656;
+}
+.error{
+    text-align: center;
+    width: 100%;
+    font-size: 1em;
+    margin-top: 1.2em;
+    font-weight: 100;
+    color: gray;
+}

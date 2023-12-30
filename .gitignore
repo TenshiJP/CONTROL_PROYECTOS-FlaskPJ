@@ -1,0 +1,9 @@
+env_crmsa/
+__pycache__/
+.pytest_cache/
+app/__pycache__
+app/config.py
+app/app run.py
+app/forms
+app/models
+app/routes

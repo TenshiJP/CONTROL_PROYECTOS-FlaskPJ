@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>C.R.M. | Datos Instaladores</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/_reset.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+        <script src="{{ url_for('static', filename='js/confirmarAcciones.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/accionesBotones.js') }}"></script>
+    </head>
+    <body class="body">
+        <header class="header">
+            <div class="logo">
+                <img class="logo-img" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo de C.R.M">
+            </div>
+            <nav class="menu">
+                <ul class="menu-list">
+                    <li class="menu-item"><a class="menu-link" href="{{ url_for('index') }}">Inicio</a></li>
+                    <li class="menu-item sub-menu">
+                        <a class="menu-link active" href="#">Listas</a>
+                        <ul class="sub-menu-items">
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('lista') }}">Lista de Instaladores</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('lista_units') }}">Unidades de Medida</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item sub-menu">
+                        <a class="menu-link" href="#">Agregar Datos</a>
+                        <ul class="sub-menu-items">
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('show_unidades') }}">Agregar Proyectos</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('show_projects') }}">Agregar Trabajo</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('new_unit') }}">Agregar Unidad</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="search-section" id="search-section">
+                <form class="#" method="post" action="/lista">
+                    <h2 class="form-title-search">Filtros: </h2>
+                    <div class="date-block">
+                        <div>
+                            <label>Inicia: </label>
+                            <input class="input-date" type="number" name="iday" placeholder="01" value="{{ filtro[0] }}" min="1" max="31">
+                            <input class="input-date" type="number" name="imes" placeholder="01" value="{{ filtro[1] }}" min="1" max="12">
+                            <input class="input-date" type="number" name="iyear" placeholder="2001" value="{{ filtro[2] }}" min="1900" max="2100">
+                        </div>
+                        <div>
+                            <label>Finaliza: </label>
+                            <input class="input-date" type="number" name="fday" placeholder="01" value="{{ filtro[3] }}" min="1" max="31">
+                            <input class="input-date" type="number" name="fmes" placeholder="01" value="{{ filtro[4] }}" min="1" max="12">
+                            <input class="input-date" type="number" name="fyear" placeholder="2001" value="{{ filtro[5] }}" min="1900" max="2100">
+                        </div>
+                    </div>
+                    <div class="input-block">
+                        <div>
+                            <label>Empleado: </label>
+                            <input class="input-field-search" type="search" name="employee" placeholder="Ingresa nombre del empleado" value="{{ filtro[6] }}">
+                        </div>
+                        <div>
+                            <label>Proyecto: </label>
+                            <input class="input-field-search" type="search" name="project" placeholder="Ingresa nombre del proyecto" value="{{ filtro[7] }}">
+                        </div>    
+                    </div>
+                    <div class="input-block">
+                        <div class="checkbox-group">
+                            <label>Estado:</label>
+                            <input type="checkbox" id="autorizado" name="estado" value="autorizado" {% if 'autorizado' in estados %}checked{% endif %}>
+                            <label for="autorizado">Autorizado</label>
+                            <input type="checkbox" id="pendiente" name="estado" value="PENDIENTE" {% if 'PENDIENTE' in estados %}checked{% endif %}>
+                            <label for="pendiente">Pendiente</label>
+                            <input type="checkbox" id="sin_estado" name="estado" value="-" {% if '-' in estados %}checked{% endif %}>
+                            <label for="sin_estado">Sin estado</label>
+                        </div>
+                    </div> 
+                    <div class="group-button-search">
+                        <div>
+                            <input class="search-button" type="submit" value="Buscar Registros">
+                        </div>
+                        <div>
+                            <button class="search-button" onclick="clearSectionSearch()">Limpiar campos</button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+                       
+            <section class="table-container-job">
+                <table border="1" class="result-table">
+                    <caption class="result-table-title">Datos de Instaladores</caption>
+                    <thead>
+                        <tr>
+                            <th style="display: none;">ID</th>
+                            <th>Empleado</th>
+                            <th>Proyecto</th>
+                            <th>Descripción del Trabajo</th>
+                            <th>Precio Unitario</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                            <th id="cels-green-t">Descuentos</th>
+                            <th id="cels-gold-t">Líquido a Recibir</th>
+                            <th id="cels-gold-t">ISR</th>
+                            <th id="cels-blue-t">IVA</th>
+                            <th id="cels-blue-t">Total a Facturar</th>
+                            <th id="cels-greenn-t">Apoyo con IVA</th>
+                            <th>Estado</th>
+                            <th>Modificar</th>
+                            <th style="display: none;">Fecha</th>
+                            <th>Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for instalador in instaladores %}
+                        <tr>
+                            <td class="#" id="#" style="display: none;">{{ instalador[0] }}</td>
+                            <td class="#" id="#">{{ instalador[1] }}</td>
+                            <td class="#" id="#">{{ instalador[2] }}</td>
+                            <td class="#" id="#">{{ instalador[3] }}</td>
+                            <td class="#" id="#">{{ instalador[4] }}</td>
+                            <td class="#" id="#">{{ instalador[5] }}</td>
+                            <td class="#" id="#">{{ instalador[6] }}</td>
+                            <td class="#" id="cels-green">{{ instalador[7] }}</td>
+                            <td class="#" id="cels-gold">{{ instalador[8] }}</td>
+                            <td class="#" id="cels-gold">{{ instalador[9] }}</td>
+                            <td class="#" id="cels-blue">{{ instalador[10] }}</td>
+                            <td class="#" id="cels-blue">{{ instalador[11] }}</td>
+                            <td class="#" id="cels-greenn">{{ instalador[12] }}</td>
+                            <td class="#" id="#">{{ instalador[13] }}</td>
+                            <td class="#" id="#" style="display: none;">{{ instalador[14] }}</td>
+                            <td class="#" id="#">
+                                <a href="{{ url_for('job_autorizado', id=instalador[0], iday=filtro[0], imes=filtro[1], iyear=filtro[2], fday=filtro[3], fmes=filtro[4], fyear=filtro[5], employee=filtro[6], project=filtro[7], estados=estados) }}" class="estado-option">Autorizado</a><br>
+                                <a href="{{ url_for('job_pendiente', id=instalador[0], iday=filtro[0], imes=filtro[1], iyear=filtro[2], fday=filtro[3], fmes=filtro[4], fyear=filtro[5], employee=filtro[6], project=filtro[7], estados=estados) }}" class="estado-option">Pendiente</a><br>
+                                <a href="{{ url_for('job_nulo', id=instalador[0], iday=filtro[0], imes=filtro[1], iyear=filtro[2], fday=filtro[3], fmes=filtro[4], fyear=filtro[5], employee=filtro[6], project=filtro[7], estados=estados) }}" class="estado-option">Sin estado</a>
+                            </td>
+                            <td class="#" id="#" style="justify-content: center;"><br>
+                                <a href="/edit-job/{{ instalador[0] }}" class="option-icon">
+                                    <img src="../static/images/icons/edit.svg" alt="Editar" >
+                                </a> - 
+                                <a href="/destroy-job/{{ instalador[0] }}" class="option-icon" onclick="confirmDeleteJob('{{ instalador[0] }}', '{{ instalador[2] }}'); return false;">
+                                    <img src="../static/images/icons/delete.svg" alt="Eliminar">
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6"><p>Sumatorias: </p></td>
+                            <td class="#" id="#">{{ totales[0] }}</td>
+                            <td class="#" id="#">{{ totales[1] }}</td>
+                            <td class="#" id="#">{{ totales[2] }}</td>
+                            <td class="#" id="#">{{ totales[3] }}</td>
+                            <td class="#" id="#">{{ totales[4] }}</td>
+                            <td class="#" id="#">{{ totales[5] }}</td>
+                            <td class="#" id="#"></td>
+                            <td colspan="2" rowspan="2"><br>
+                                <form method="post" action="/datos-instaladores">
+                                    <input type="number" name="iday" value="{{ filtro[0] }}" style="display: none;">
+                                    <input type="number" name="imes" value="{{ filtro[1] }}" style="display: none;">
+                                    <input type="number" name="iyear" value="{{ filtro[2] }}" style="display: none;">    
+                                    <input type="number" name="fday" value="{{ filtro[3] }}" style="display: none;">
+                                    <input type="number" name="fmes" value="{{ filtro[4] }}" style="display: none;">
+                                    <input type="number" name="fyear" value="{{ filtro[5] }}" style="display: none;">
+                                    <input type="text" name="employee" value="{{ filtro[6] }}" style="display: none;">
+                                    <input type="text" name="project" value="{{ filtro[7] }}" style="display: none;">
+                                    <div class="checkbox-group">
+                                        <input type="checkbox" id="autorizado" name="estado" value="autorizado" {% if 'autorizado' in estados %}checked{% endif %} style="display: none;">
+                                        <input type="checkbox" id="pendiente" name="estado" value="PENDIENTE" {% if 'PENDIENTE' in estados %}checked{% endif %} style="display: none;">
+                                        <input type="checkbox" id="sin_estado" name="estado" value="-" {% if '-' in estados %}checked{% endif %} style="display: none;">
+                                    </div>
+                                    <input type="submit" class="button-excel" value="Descargar Excel" name="donwload_excel">
+                                </form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6"><p>Total: </p></td>
+                            <td>{{ precio_total }}</td><td colspan="6"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>                
+        </main>
+        <footer class="footer">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h3 class="foot-title">Acerca de</h3>
+                    <p>Dedicados a la restauración de pisos y mantenimiento, con acabados profesonales en cada piso.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="foot-title">Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="{{ url_for('lista') }}">Lista de Instaladores</a></li>
+                        <li><a href="{{ url_for('lista_units') }}">Unidades de Medida</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="foot-title">Redes sociales</h3>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 C.R.M. Cristalizado y Restauración de Marmol, Guatemala S.A. Todos los derechos reservados.<br><a href="#">by Angel Jacinto</a></p>
+            </div>
+        </footer>
+    </body>
+</html>

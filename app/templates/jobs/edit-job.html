@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>C.R.M. | Editar Trabajo</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/_reset.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/forms.css') }}">
+    </head>
+    <body class="body">
+        <header class="header">
+            <div class="logo">
+                <img class="logo-img" src="{{ url_for('static', filename='images/logo.svg') }}" alt="Logo de C.R.M">
+            </div>
+            <nav class="menu">
+                <ul class="menu-list">
+                    <li class="menu-item"><a class="menu-link" href="{{ url_for('index') }}">Inicio</a></li>
+                    <li class="menu-item sub-menu">
+                        <a class="menu-link active" href="#">Listas</a>
+                        <ul class="sub-menu-items">
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('lista') }}">Lista de Instaladores</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('lista_units') }}">Unidades de Medida</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item sub-menu">
+                        <a class="menu-link" href="#">Agregar Datos</a>
+                        <ul class="sub-menu-items">
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('show_unidades') }}">Agregar Proyectos</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('show_projects') }}">Agregar Trabajo</a></li>
+                            <li class="sub-menu-item no-arrow"><a class="sub-menu-link" href="{{ url_for('new_unit') }}">Agregar Unidad</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-item"><a class="menu-link" href="{{ url_for('logout') }}">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="form-container">
+                <form class="#" method="post" action="/update_job">                    
+                    <h2 class="form-title">Modificar Trabajo</h2>
+                    <input type="text" name="uuid" id="uuid" value="{{ job['ID'] }}" readonly required style="display: none;">
+                    <div class="input-group">
+                        <label class="input-label" for="project">Proyecto: </label>
+                        <input class="input-field" type="text" name="project" id="project" value="{{ job['PROYECTO'] }}" readonly required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="empleado">Empleado: </label>
+                        <input class="input-field" type="text" name="empleado" id="empleado" value="{{ job['EMPLEADO'] }}" readonly required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="descripcion">Descripción del trabajo: </label>
+                        <textarea class="input-field" id="descripcion" name="descripcion" rows="4" cols="50" required>{{ job['DESCRIPCION'] }}</textarea>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="precio">Precio unitario: </label>
+                        <input class="input-field" type="text" name="precio" id="precio" value="{{ job['PRECIO_UNITARIO'] }}" pattern="\d+(\.\d{2})?" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="cantidad">Cantidad: </label>
+                        <input class="input-field" type="number" name="cantidad" id="cantidad" value="{{ job['CANTIDAD'] }}" step="0.01" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="unit">Unidad: </label>
+                        <input class="input-field" type="text" name="unit" id="unit" value="{{ job['UNIDAD'] }}"required>
+                    </div>
+                    <label class="input-label">Descuento: </label>
+                    <div class="radio-group input-group">
+                        <input class="radio-input" type="radio" name="descuento" id="descuento_si" value="Si" {% if descuento == "Si" %}checked{% endif %} required>
+                        <label class="radio-label" for="descuento_si">Sí</label>
+                        <input class="radio-input" type="radio" name="descuento" id="descuento_no" value="No" {% if descuento == "No" %}checked{% endif %} required>
+                        <label class="radio-label" for="descuento_no">No</label>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="estado">Estado: </label>
+                        <input class="input-field" type="text" name="estado" id="estado" value="{{ job['ESTADO'] }}" required>
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label" for="date">Fecha de la tarea: </label>
+                        <input class="input-field" type="text" name="fecha" id="fecha" value="{{ job['FECHA'] }}" required>
+                    </div>
+                    <div class="group-button">
+                        <div class="double-button">
+                            <input class="button-f" type="submit" id="actualizar" name="actualizar" value="Actualizar Trabajo">
+                        </div>
+                        <div class="double-button">
+                            <button class="button-a"><a href="{{ url_for('lista') }}">Cancelar</a></button>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </main>
+        <footer class="footer">
+            <div class="footer-top">
+                <div class="footer-section">
+                    <h3 class="foot-title">Acerca de</h3>
+                    <p>Dedicados a la restauración de pisos y mantenimiento, con acabados profesonales en cada piso.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="foot-title">Enlaces rápidos</h3>
+                    <ul>
+                        <li><a href="/">Inicio</a></li>
+                        <li><a href="{{ url_for('lista') }}">Lista de Instaladores</a></li>
+                        <li><a href="{{ url_for('lista_units') }}">Unidades de Medida</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="foot-title">Redes sociales</h3>
+                    <ul class="social-icons">
+                        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 C.R.M. Cristalizado y Restauración de Marmol, Guatemala S.A. Todos los derechos reservados.<br><a href="#">by Angel Jacinto</a></p>
+            </div>
+        </footer>
+    </body>
+</html>
